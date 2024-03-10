@@ -1,12 +1,10 @@
 #include "Scheduler.h"
-#include "SomeipService.h"
-#include "CanService.h"
+// #include "SomeipService.h"
+// #include "CanService.h"
 #include "Tasks.h"
 
 void Scheduler::initialize (void) 
 {
-    eventSetter = EventSetter();
-    highResTimer = HighResolutionTimer(eventSetter);
     highResTimer.start();
     // TODO - initialize someipService
     // TODO - initialize canService
@@ -27,7 +25,7 @@ void Scheduler::run (void)
 
 void Scheduler::shutdown (void) 
 {
-    this.highResTimer,stop();
+    highResTimer.stop();
 }
 
 int main (void) 

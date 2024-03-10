@@ -10,7 +10,7 @@ class EventSetter {
         EventSetter();
         void set1msEvent();
         void set10msEvent();
-        bool check1mEvent();
+        bool check1msEvent();
         bool check10msEvent();
 
     private:

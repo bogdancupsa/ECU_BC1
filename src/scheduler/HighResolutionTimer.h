@@ -8,7 +8,7 @@
 
 class HighResolutionTimer {
     public:
-        HighResolutionTimer         (EventSetter& eventSetter);
+        HighResolutionTimer(EventSetter& eventSetter) : eventSetter_(eventSetter), running_(false) {}
         void start                  (void);
         void stop                   (void);
 
