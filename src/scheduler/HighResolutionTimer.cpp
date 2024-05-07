@@ -29,13 +29,11 @@ void HighResolutionTimer::timerLoop() {
         if (now - last1msTick >= milliseconds(1)) {
             eventSetter_.set1msEvent();
             last1msTick += milliseconds(1);
-            // std::cout << "1ms event set" << std::endl;
         }
 
         if (now - last10msTick >= milliseconds(10)) {
             eventSetter_.set10msEvent();
             last10msTick += milliseconds(10);
-            // std::cout << "10ms event set" << std::endl;
         }
 
         std::this_thread::sleep_until(last1msTick);

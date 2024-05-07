@@ -3,6 +3,7 @@
 
 #include "EventSetter.h"
 #include "HighResolutionTimer.h"
+#include "udpSock.h"
 
 class Scheduler {
     public:
@@ -10,7 +11,8 @@ class Scheduler {
         EventSetter            eventSetter;
         bool                   exitCondition = false;
 
-        Scheduler() : eventSetter(), highResTimer(eventSetter) {}
+        Scheduler() : eventSetter(), 
+                      highResTimer(eventSetter) {}
 
         void initialize        ( void );
         void run               ( void );

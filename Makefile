@@ -1,26 +1,29 @@
 CXX := g++
-CXXFLAGS := -std=c++17 -Wall -Wextra -pthread 
+CXXFLAGS := -std=c++17 -Wall -Wextra -pthread -Isrc/application -Isrc/scheduler -Isrc/communication -Isrc/communication/sockets
 LDFLAGS := 
 BUILD_DIR := build
-SRC_DIR := src/scheduler
 
+SRC_DIRS := src/scheduler src/communication/sockets
 
-SOURCES := $(wildcard $(SRC_DIR)/*.cpp)
+SOURCES := $(wildcard src/scheduler/*.cpp) $(wildcard src/communication/sockets/*.cpp)
 
-OBJECTS := $(SOURCES:$(SRC_DIR)/%.cpp=$(BUILD_DIR)/%.o)
+OBJECTS := $(patsubst src/%,$(BUILD_DIR)/%,$(SOURCES:.cpp=.o))
 
 EXECUTABLE := $(BUILD_DIR)/ECU_BC1
 
-.PHONY: all clean
+.PHONY: all clean directories
 
-all: $(EXECUTABLE)
+all: directories $(EXECUTABLE)
+
+directories:
+	@mkdir -p $(BUILD_DIR)/scheduler
+	@mkdir -p $(BUILD_DIR)/communication/sockets
 
 $(EXECUTABLE): $(OBJECTS)
-	$(CXX) $(CXXFLAGS) $^ -o $@ $(LDFLAGS)
+	$(CXX) $(OBJECTS) -o $@ $(LDFLAGS)
 
-$(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp
-	mkdir -p $(BUILD_DIR)
+$(BUILD_DIR)/%.o: src/%.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 clean:
-	rm -rf $(BUILD_DIR)
+	@rm -rf $(BUILD_DIR)
