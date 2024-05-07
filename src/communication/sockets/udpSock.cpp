@@ -19,13 +19,13 @@ UDPSocket::UDPSocket(unsigned short port)
     addr_.sin_port = htons(port);
     addr_.sin_addr.s_addr = htonl(INADDR_ANY);
 
-    // bind
-    if ( bind(socket_fd_, 
-             reinterpret_cast<struct sockaddr*>(&addr_),
-             sizeof(addr_) ) < 0 )
-    {
-        throw std::runtime_error("Error binding socket");
-    }
+    // bind - no binding for sender
+    // if ( bind(socket_fd_, 
+    //          reinterpret_cast<struct sockaddr*>(&addr_),
+    //          sizeof(addr_) ) < 0 )
+    // {
+    //     throw std::runtime_error("Error binding socket");
+    // }
 }
 
 void UDPSocket::send (const std::string& ip, unsigned short port, const std::string& message)
