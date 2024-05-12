@@ -28,7 +28,7 @@ UDPSocket::UDPSocket(unsigned short port)
     // }
 }
 
-void UDPSocket::send (const std::string& ip, unsigned short port, const std::string& message)
+void UDPSocket::send (const std::string& ip, unsigned short port, const uint8_t* message, size_t message_size)
 {
     struct sockaddr_in dest_addr;
     std::memset(&dest_addr, 0, sizeof(dest_addr));
@@ -39,15 +39,15 @@ void UDPSocket::send (const std::string& ip, unsigned short port, const std::str
 
     sendto( 
         socket_fd_, 
-        message.c_str(), 
-        message.length(), 
+        message, 
+        message_size, 
         0, 
-        reinterpret_cast<const sockaddr*>(&dest_addr), 
+        (const sockaddr*)&dest_addr, 
         sizeof(dest_addr)
     );
 }
 
-void UDPSocket::receive (void)
+std::string UDPSocket::receive (void)
 {
     char buffer[1024];
     struct sockaddr_in in_addr;
@@ -59,10 +59,11 @@ void UDPSocket::receive (void)
             buffer, 
             sizeof(buffer) - 1, 
             0, 
-            reinterpret_cast<sockaddr*>(&addr_), 
+            reinterpret_cast(sockaddr*)&in_addr, 
             &len
         );
 
     buffer[n] = '\0';
     std::cout << "Received: " << buffer << std::endl;
+    return std::string(buffer);
 }

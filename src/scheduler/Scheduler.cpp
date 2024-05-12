@@ -29,7 +29,7 @@ void Scheduler::run (void)
             execute10msTask();
         }
 
-        sendSocket.send("192.168.1.11", 12345, "Hello");
+        sendSocket.send("192.168.1.11", 12345, "Hello", 5);
 
     }
 
