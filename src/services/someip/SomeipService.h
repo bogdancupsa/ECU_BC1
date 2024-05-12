@@ -20,11 +20,12 @@ struct SomeIPMessage
 {
     SomeIPHeader someip_header;
     uint8_t someip_payload[SOMEIP_MSG_SIZE];
-}
+};
 
 void serialize_message    (SomeIPMessage* deserialized_msg, uint8_t* serialized_msg);
 void deserialize_message  (uint8_t* serialized_msg, SomeIPMessage* deserialized_msg);
 void send_someip_msg      (SomeIPMessage* message);
+void receive_someip_msg   (void)
 
 
 #endif // SOMEIP_SERVICE_H

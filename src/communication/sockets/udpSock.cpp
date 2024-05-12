@@ -55,7 +55,8 @@ void UDPSocket::receive (void)
     socklen_t len = sizeof(in_addr);
 
     ssize_t n = recvfrom(
-            socket_fd_, buffer, 
+            socket_fd_, 
+            buffer, 
             sizeof(buffer) - 1, 
             0, 
             reinterpret_cast<sockaddr*>(&addr_), 
