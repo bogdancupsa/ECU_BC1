@@ -2,9 +2,9 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-UDPSocket::UDPSocket(unsigned short port) 
+UDPSocket::UDPSocket(unsigned short port, bool bind_socket) 
 {
-    // socket creation
+    /* socket creation */ 
     socket_fd_ = socket(AF_INET, SOCK_DGRAM, 0);
 
     if (socket_fd_ < 0)
@@ -13,19 +13,32 @@ UDPSocket::UDPSocket(unsigned short port)
         exit(0);
     }
 
-    // address structure
+    /* address structure */ 
     std::memset(&addr_, 0, sizeof(addr_));
     addr_.sin_family = AF_INET;
     addr_.sin_port = htons(port);
     addr_.sin_addr.s_addr = htonl(INADDR_ANY);
 
-    // bind - no binding for sender
-    // if ( bind(socket_fd_, 
-    //          reinterpret_cast<struct sockaddr*>(&addr_),
-    //          sizeof(addr_) ) < 0 )
-    // {
-    //     throw std::runtime_error("Error binding socket");
-    // }
+    if (false != bind_socket)
+    { /* bind - no binding for sender */ 
+        if (bind(socket_fd_, 
+            reinterpret_cast<struct sockaddr*>(&addr_),
+            sizeof(addr_) ) < 0 )
+        {
+            throw std::runtime_error("Error binding socket");
+        }
+    }
+
+    else
+    { /* skip biding for receiver */
+        /* Nothing */ 
+    }
+    
+}
+
+UDPSocket::~UDPSocket()
+{
+    /* nothing */
 }
 
 void UDPSocket::send (const std::string& ip, unsigned short port, const uint8_t* message, size_t message_size)
@@ -59,9 +72,8 @@ std::string UDPSocket::receive (void)
             buffer, 
             sizeof(buffer) - 1, 
             0, 
-            reinterpret_cast(sockaddr*)&in_addr, 
-            &len
-        );
+            reinterpret_cast<sockaddr*>(&in_addr), 
+            &len);
 
     buffer[n] = '\0';
     std::cout << "Received: " << buffer << std::endl;

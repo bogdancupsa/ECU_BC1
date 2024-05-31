@@ -8,13 +8,15 @@
 #include <iostream>
 #include <stdlib.h>
 #include <stdio.h>
+#include <string>
 
 class UDPSocket {
     public:
-        UDPSocket(unsigned short port);
+        UDPSocket(unsigned short port, bool bind_socket = false);
+        ~UDPSocket();
 
-        void send    (const std::string& ip, unsigned short port, const std::string& message);
-        void receive (void);
+        void        send    (const std::string& ip, unsigned short port, const uint8_t* message, size_t message_size);
+        std::string receive (void);
 
     private:
         int socket_fd_;

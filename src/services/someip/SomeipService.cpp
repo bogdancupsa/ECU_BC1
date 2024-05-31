@@ -14,7 +14,7 @@ void serialize_message (SomeIPMessage* deserialized_msg, uint8_t* serialized_msg
 
 }
 
-void deserialize_message (uint8_t* serialized_msg, SomeIPMessage* deserialized_msg)
+void deserialize_message (const uint8_t* serialized_msg, SomeIPMessage* deserialized_msg)
 {
 
     std::memcpy(&(deserialized_msg->someip_header), serialized_msg, sizeof(deserialized_msg->someip_header));
@@ -23,21 +23,23 @@ void deserialize_message (uint8_t* serialized_msg, SomeIPMessage* deserialized_m
 
 }
 
-void send_someip_msg (SomeIPMessage* message) 
+void send_someip_msg (SomeIPMessage* message, const char* ip, unsigned short port) 
 {
-    UDPSocket socket(12345);
+    UDPSocket socket(12345); /* default no binding for sender*/
     uint8_t buffer[1024];
 
     serialize_message(message, buffer);
-    socket.send("192.168.1.11", 12345, buffer);
+    socket.send(ip, port, buffer, sizeof(buffer));
 }
 
-void receive_someip_msg (void)
+SomeIPMessage receive_someip_msg (void)
 {
-    UDPSocket socket(12345);
-    uint8_t buffer[1024];
+    UDPSocket socket(12345, true); /* bind for receiver */
     SomeIPMessage message;
 
-    socket.receive();
-    deserialize_message(buffer, &message);
+    std::string data = socket.receive(); 
+
+    deserialize_message(reinterpret_cast<const uint8_t*>(data.c_str()), &message);
+    
+    return message;
 }
