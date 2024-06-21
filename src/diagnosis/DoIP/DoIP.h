@@ -22,6 +22,6 @@ struct DoIPMessage {
 void          serialize_doip    (DoIPMessage* deserialized_msg, uint8_t* serialized_msg);
 void          deserialize_doip  (const uint8_t* serialized_msg, DoIPMessage* deserialized_msg);
 void          send_doip         (DoIPMessage* message, const char* ip, unsigned short port);
-DoIPMessage   receive_doip      (void);
+DoIPMessage   receive_doip      (unsigned short port);
 
 #endif // DOIP_H

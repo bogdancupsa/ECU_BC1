@@ -16,23 +16,23 @@ void deserialize_doip (const uint8_t* serialized_msg, DoIPMessage* deserialized_
     std::memcpy(deserialized_msg->doip_payload, serialized_msg + sizeof(deserialized_msg->doip_header), deserialized_msg->doip_header.payload_length);
 }
 
-void send_doip (const DoIPMessage* message, const char* ip, unsigned short port)
+void send_doip (DoIPMessage* message, const char* ip, unsigned short port)
 {
-    UDPSocket socket(13400);
+    UDPSocket socket(port);
     uint8_t buffer[1024];
 
     serialize_doip(message, buffer);
     socket.send(ip, port, buffer, sizeof(buffer));
 }
 
-DoIPMessaqge receive_doip (unsigned short port)
+DoIPMessage receive_doip (unsigned short port)
 {
     UDPSocket socket(port);
     DoIPMessage doip_msg;
 
     std::string data = socket.receive();
 
-    deserialize_doip(reinterpret_cast<const uint8_t*>(data.c_str()), &message);
+    deserialize_doip(reinterpret_cast<const uint8_t*>(data.c_str()), &doip_msg);
 
-    return message;
+    return doip_msg;
 }
