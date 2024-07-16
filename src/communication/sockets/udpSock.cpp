@@ -20,7 +20,7 @@ UDPSocket::UDPSocket(unsigned short port, bool bind_socket)
     addr_.sin_addr.s_addr = htonl(INADDR_ANY);
 
     if (false != bind_socket)
-    { /* bind - no binding for sender */ 
+    { 
         if (bind(socket_fd_, 
             reinterpret_cast<struct sockaddr*>(&addr_),
             sizeof(addr_) ) < 0 )
@@ -30,7 +30,7 @@ UDPSocket::UDPSocket(unsigned short port, bool bind_socket)
     }
 
     else
-    { /* skip biding for receiver */
+    { 
         /* Nothing */ 
     }
     
