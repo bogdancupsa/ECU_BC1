@@ -30,10 +30,10 @@ UDPSocket::UDPSocket(unsigned short port, bool bind_socket)
     }
 }
 
-// UDPSocket::~UDPSocket()
-// {
-//     close(socket_fd_);
-// }
+UDPSocket::~UDPSocket()
+{
+    // close(socket_fd_);
+}
 
 void UDPSocket::send(const std::string& ip, unsigned short port, const uint8_t* message, size_t message_size)
 {
