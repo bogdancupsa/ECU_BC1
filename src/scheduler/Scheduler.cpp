@@ -34,21 +34,8 @@ void Scheduler::run (void)
 
 #endif
     
-    SomeIPMessage request_msg;
-    request_msg.someip_header.message_id = 1;
-    request_msg.someip_header.length = 0;
-    request_msg.someip_header.protocol_version = 1;
-    request_msg.someip_header.message_type = REQUEST;
-    request_msg.someip_header.return_code = 0;
-
-    send_someip_msg(&request_msg, "192.168.1.11", 12345);
-
-    SomeIPMessage response_msg = receive_someip_msg();
-
-    if (RESPONSE == response_msg.someip_header.message_type)
-    {
-        printf("Pedal status: %s", response_msg.someip_payload);
-    }
+    
+    UDPSocket sendSocket = UDPSocket(12345);
 
     while (!exitCondition) 
     {
@@ -61,6 +48,8 @@ void Scheduler::run (void)
         {
             execute10msTask();
         }
+
+        sendSocket.send("192.168.1.11", 12345, "Hello", 5);
 
 #if TEST_SESSION_ACTIVE == 0
 
