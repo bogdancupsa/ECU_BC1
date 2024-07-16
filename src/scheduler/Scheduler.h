@@ -11,7 +11,7 @@
  * TEST_SESSION_ACTIVE 1 => testing
  * TEST_SESSION_ACTIVE 0 => no testing - normal functioning of ECU
 */
-#define TEST_SESSION_ACTIVE 0  
+#define TEST_SESSION_ACTIVE 2  
 
 class Scheduler {
     public:

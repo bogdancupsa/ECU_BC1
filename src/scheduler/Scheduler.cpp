@@ -24,7 +24,7 @@ void Scheduler::run (void)
     request_msg.someip_header.message_type = REQUEST;
     request_msg.someip_header.return_code = 0;
 
-#else
+#elif TEST_SESSION_ACTIVE == 1
 
     DoIPMessage request_msg;
     request_msg.doip_header.protocol_version = 0x02;
@@ -56,7 +56,7 @@ void Scheduler::run (void)
         {
             printf("Pedal status: %s", response_msg.someip_payload);
         }
-#else
+#elif TEST_SESSION_ACTIVE == 1
 
         /* send request */
         send_doip(&request_msg, "192.168.1.11", 13400);
