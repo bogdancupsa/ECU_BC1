@@ -49,7 +49,7 @@ void Scheduler::run (void)
             execute10msTask();
         }
 
-        sendSocket.send("192.168.1.11", 12345, (const char*)"Hello", 5);
+        sendSocket.send("192.168.1.11", 12345, reinterpret_cast<const uint8_t*>"Alive", 5);
 
 #if TEST_SESSION_ACTIVE == 0
 
