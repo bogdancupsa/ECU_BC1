@@ -11,7 +11,6 @@ void serialize_message (SomeIPMessage* deserialized_msg, uint8_t* serialized_msg
     std::memcpy(serialized_msg, &(deserialized_msg->someip_header), sizeof(deserialized_msg->someip_header));
   
     std::memcpy(serialized_msg + sizeof(deserialized_msg->someip_header), deserialized_msg->someip_payload, deserialized_msg->someip_header.length);
-std::cout << "Message serialized" << std::endl;
 }
 
 void deserialize_message (const uint8_t* serialized_msg, SomeIPMessage* deserialized_msg)
@@ -20,7 +19,6 @@ void deserialize_message (const uint8_t* serialized_msg, SomeIPMessage* deserial
     std::memcpy(&(deserialized_msg->someip_header), serialized_msg, sizeof(deserialized_msg->someip_header));
 
     std::memcpy(deserialized_msg->someip_payload, serialized_msg + sizeof(deserialized_msg->someip_header), deserialized_msg->someip_header.length);
-std::cout << "Message deserialized" << std::endl;
 }
 
 void send_someip_msg (SomeIPMessage* message, const char* ip, unsigned short port) 
@@ -29,7 +27,7 @@ void send_someip_msg (SomeIPMessage* message, const char* ip, unsigned short por
     uint8_t buffer[1024];
 
     serialize_message(message, buffer);
-    std::cout << "Sending SOME/IP message to " << ip << ":" << port << std::endl;
+    std::cout << "Sending Some/IP message to " << ip << ":" << port << std::endl;
     socket.send(ip, port, buffer, sizeof(SomeIPHeader) + message->someip_header.length);
 }
 
