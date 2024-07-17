@@ -30,7 +30,7 @@ void send_someip_msg (SomeIPMessage* message, const char* ip, unsigned short por
 
     serialize_message(message, buffer);
     std::cout << "Sending SOME/IP message to " << ip << ":" << port << std::endl;
-    socket.send(ip, port, buffer, sizeof(buffer));
+    socket.send(ip, port, buffer, sizeof(SomeIPHeader) + message->someip_header.length);
 }
 
 SomeIPMessage receive_someip_msg (void)
