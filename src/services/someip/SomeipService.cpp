@@ -25,7 +25,7 @@ std::cout << "Message deserialized" << std::endl;
 
 void send_someip_msg (SomeIPMessage* message, const char* ip, unsigned short port) 
 {
-    UDPSocket socket(12346); /* default no binding for sender*/
+    UDPSocket socket(12345); /* default no binding for sender*/
     uint8_t buffer[1024];
 
     serialize_message(message, buffer);
@@ -35,7 +35,7 @@ void send_someip_msg (SomeIPMessage* message, const char* ip, unsigned short por
 
 SomeIPMessage receive_someip_msg (void)
 {
-    UDPSocket socket(12345);
+    UDPSocket socket(12346, true);
     SomeIPMessage message;
 
     std::string data = socket.receive(); 

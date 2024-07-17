@@ -49,7 +49,7 @@ void Scheduler::run (void)
 
 #if TEST_SESSION_ACTIVE == 0
 
-        send_someip_msg(&request_msg, "192.168.1.11", 12345);
+        send_someip_msg(&request_msg, "192.168.1.11", 12348);
 
         SomeIPMessage response_msg = receive_someip_msg();
 
