@@ -31,7 +31,7 @@ void Scheduler::run (void)
 
 #endif
 
-    UDPSocket sendSocket(12345);
+    // UDPSocket sendSocket(12345);
 
     while (!exitCondition) 
     {
@@ -43,9 +43,16 @@ void Scheduler::run (void)
         if (eventSetter.check10msEvent()) 
         {
             execute10msTask();
+            send_doip(&request_msg, "192.168.1.11", 13400);
+
+        DoIPMessage response_msg = receive_doip(13401);
+        if (0x0004 == response_msg.doip_header.payload_type)
+        {
+            std::cout << "received vin" << std::endl;
+        }
         }
 
-        sendSocket.send("192.168.1.11", 12345, reinterpret_cast<const uint8_t*>("Alive"), 5);
+        // sendSocket.send("192.168.1.11", 12345, reinterpret_cast<const uint8_t*>("Alive"), 5);
 
 #if TEST_SESSION_ACTIVE == 0
 
@@ -59,13 +66,7 @@ void Scheduler::run (void)
         }
 #elif TEST_SESSION_ACTIVE == 1
 
-        send_doip(&request_msg, "192.168.1.11", 13400);
-
-        DoIPMessage response_msg = receive_doip(13401);
-        if (0x0004 == response_msg.doip_header.payload_type)
-        {
-            std::cout << "received vin" << std::endl;
-        }
+        
 
 #endif
 
